@@ -1,0 +1,135 @@
+def bubble_sort(arr):
+    n = len(arr)
+    print(f"Data awal: {arr}\n")
+    for i in range(n):
+        swapped = False
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+        print(f"Iterasi ke-{i+1}: {arr}")
+        if not swapped:
+            print("Sudah terurut lebih awal.")
+            break
+    return arr
+
+
+def selection_sort(arr):
+    n = len(arr)
+    print(f"Data awal: {arr}\n")
+    for i in range(n):
+        min_idx = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+        print(f"Iterasi ke-{i+1}: {arr}")
+    return arr
+
+
+def insertion_sort(arr):
+    print(f"Data awal: {arr}\n")
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and key < arr[j]:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+        print(f"Iterasi ke-{i}: {arr}")
+    return arr
+
+
+# Quick Sort helper untuk menampilkan proses
+def quick_sort(arr, low, high):
+    if low < high:
+        pi = partition(arr, low, high)
+        print(f"Setelah partisi di pivot index {pi}: {arr}")
+        quick_sort(arr, low, pi - 1)
+        quick_sort(arr, pi + 1, high)
+    return arr
+
+
+def partition(arr, low, high):
+    pivot = arr[high]
+    i = low - 1
+    for j in range(low, high):
+        if arr[j] < pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    return i + 1
+
+
+# Merge Sort helper untuk menampilkan proses
+def merge_sort(arr):
+    if len(arr) > 1:
+        mid = len(arr) // 2
+        L = arr[:mid]
+        R = arr[mid:]
+
+        merge_sort(L)
+        merge_sort(R)
+
+        i = j = k = 0
+
+        while i < len(L) and j < len(R):
+            if L[i] < R[j]:
+                arr[k] = L[i]
+                i += 1
+            else:
+                arr[k] = R[j]
+                j += 1
+            k += 1
+
+        while i < len(L):
+            arr[k] = L[i]
+            i += 1
+            k += 1
+
+        while j < len(R):
+            arr[k] = R[j]
+            j += 1
+            k += 1
+
+        print(f"Proses Penggabungan: {arr}")
+    return arr
+
+
+# --- Fungsi Utama untuk Input ---
+def main():
+    n = int(input("Masukkan jumlah data: "))
+    data = []
+    for i in range(n):
+        elemen = int(input(f"Masukkan data ke-{i+1}: "))
+        data.append(elemen)
+
+    print("\n=== PILIH METODE SORTING ===")
+    print("1. Bubble Sort\n2. Selection Sort\n3. Insertion Sort\n4. Quick Sort\n5. Merge Sort")
+    pilihan = int(input("Pilihan (1-5): "))
+
+    print("\n--- PROSES SORTING ---")
+    data_copy = data.copy()
+
+    if pilihan == 1:
+        hasil = bubble_sort(data_copy)
+    elif pilihan == 2:
+        hasil = selection_sort(data_copy)
+    elif pilihan == 3:
+        hasil = insertion_sort(data_copy)
+    elif pilihan == 4:
+        print(f"Data awal: {data_copy}\n")
+        hasil = quick_sort(data_copy, 0, len(data_copy) - 1)
+    elif pilihan == 5:
+        print(f"Data awal: {data_copy}\n")
+        hasil = merge_sort(data_copy)
+    else:
+        print("Pilihan tidak valid.")
+        return
+
+    print("\n--- HASIL AKHIR ---")
+    print(f"Data Terurut: {hasil}")
+
+
+if __name__ == "__main__":
+    main()
